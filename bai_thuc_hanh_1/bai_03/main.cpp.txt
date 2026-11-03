@@ -1,0 +1,200 @@
+class SystemInterface {
+private:
+    bai_xe bai1, bai2, bai3;
+
+    bool co1, co2, co3;
+
+public:
+    SystemInterface() {
+        co1 = false;
+        co2 = false;
+        co3 = false;
+    }
+
+    bool trung_ma_bai(int ma) {
+        if (co1 && bai1.lay_ma() == ma) return true;
+        if (co2 && bai2.lay_ma() == ma) return true;
+        if (co3 && bai3.lay_ma() == ma) return true;
+
+        return false;
+    }
+
+    bool trung_ma_xe(int ma) {
+        if (co1 && bai1.chua(ma)) return true;
+        if (co2 && bai2.chua(ma)) return true;
+        if (co3 && bai3.chua(ma)) return true;
+
+        return false;
+    }
+
+    // Chuan hoa loai xe
+    string chuan_hoa(string loai) {
+        for (int i = 0; i < (int)loai.length(); i++)
+            loai[i] = tolower(loai[i]);
+
+        if (loai == "car")
+            return "Car";
+
+        if (loai == "motorcycle")
+            return "Motorcycle";
+
+        if (loai == "bicycle")
+            return "Bicycle";
+
+        return "";
+    }
+void tao_bai() {
+        int ma;
+        char kt;
+
+        if (co1 && co2 && co3) {
+            cout << "Da du 3 bai xe!\n";
+            return;
+        }
+
+        cout << "Nhap ma bai xe: ";
+        cin >> ma;
+
+        if (trung_ma_bai(ma)) {
+            cout << "Ma bai xe da ton tai!\n";
+            return;
+        }
+
+        cout << "Nhap kich thuoc (S/M/L): ";
+        cin >> kt;
+
+        kt = toupper(kt);
+
+        if (kt != 'S' && kt != 'M' && kt != 'L') {
+            cout << "Kich thuoc khong hop le!\n";
+            return;
+        }
+
+        if (!co1) {
+            bai1 = bai_xe(ma, kt);
+            co1 = true;
+        }
+        else if (!co2) {
+            bai2 = bai_xe(ma, kt);
+            co2 = true;
+        }
+        else {
+            bai3 = bai_xe(ma, kt);
+            co3 = true;
+        }
+
+        cout << "Tao bai xe thanh cong!\n";
+    }
+void them_xe() {
+        int ma, gio, tg;
+        string loai;
+
+        if (!co1 && !co2 && !co3) {
+            cout << "Chua co bai xe nao!\n";
+            return;
+        }
+
+        cout << "Nhap ma xe: ";
+        cin >> ma;
+
+        if (trung_ma_xe(ma)) {
+            cout << "Ma xe da ton tai!\n";
+            return;
+        }
+
+        cout << "Nhap loai xe (Car/Motorcycle/Bicycle): ";
+        cin >> loai;
+
+        loai = chuan_hoa(loai);
+
+        if (loai == "") {
+            cout << "Loai xe khong hop le!\n";
+            return;
+        }
+
+        cout << "Nhap gio vao (0-23): ";
+        cin >> gio;
+
+        if (gio < 0 || gio > 23) {
+            cout << "Gio vao khong hop le!\n";
+            return;
+        }
+
+        cout << "Nhap thoi gian do (1-23): ";
+        cin >> tg;
+
+        if (tg < 1 || tg > 23) {
+            cout << "Thoi gian do khong hop le!\n";
+            return;
+        }
+
+        phuong_tien xe(ma, loai, gio, tg);
+
+        if (co1 && bai1.them(xe)) {
+            cout << "Da them xe vao bai " << bai1.lay_ma() << endl;
+        }
+        else if (co2 && bai2.them(xe)) {
+            cout << "Da them xe vao bai " << bai2.lay_ma() << endl;
+        }
+        else if (co3 && bai3.them(xe)) {
+            cout << "Da them xe vao bai " << bai3.lay_ma() << endl;
+        }
+        else {
+            cout << "Khong con cho trong!\n";
+        }
+    }
+ void xoa_bai() {
+        int ma;
+
+        cout << "Nhap ma bai xe can xoa: ";
+        cin >> ma;
+
+        if (co1 && bai1.lay_ma() == ma) {
+            bai1 = bai_xe();
+            co1 = false;
+            cout << "Da xoa bai xe!\n";
+        }
+        else if (co2 && bai2.lay_ma() == ma) {
+            bai2 = bai_xe();
+            co2 = false;
+            cout << "Da xoa bai xe!\n";
+        }
+        else if (co3 && bai3.lay_ma() == ma) {
+            bai3 = bai_xe();
+            co3 = false;
+            cout << "Da xoa bai xe!\n";
+        }
+        else {
+            cout << "Khong tim thay bai xe!\n";
+        }
+    }
+void xoa_xe() {
+        int ma;
+
+        cout << "Nhap ma xe can lay ra: ";
+        cin >> ma;
+
+        if (co1 && bai1.xoa(ma)) {
+            cout << "Da lay xe ra khoi bai!\n";
+        }
+        else if (co2 && bai2.xoa(ma)) {
+            cout << "Da lay xe ra khoi bai!\n";
+        }
+        else if (co3 && bai3.xoa(ma)) {
+            cout << "Da lay xe ra khoi bai!\n";
+        }
+        else {
+            cout << "Khong tim thay xe!\n";
+        }
+    }
+void hien_thi_bai() {
+        if (!co1 && !co2 && !co3) {
+            cout << "Chua co bai xe nao!\n";
+            return;
+        }
+
+        if (co1) bai1.hien_thi();
+        if (co2) bai2.hien_thi();
+        if (co3) bai3.hien_thi();
+    }
+

@@ -1,0 +1,86 @@
+#include <iostream>
+#include <string>
+#include <iomanip>
+#include <cctype>
+using namespace std;
+class phuong_tien {
+private:
+    int ma_xe;
+    string loai_xe;
+    int gio_vao;
+    int tg_do;
+
+public:
+    phuong_tien() {
+        ma_xe = 0;
+        loai_xe = "";
+        gio_vao = 0;
+        tg_do = 0;
+    }
+
+    phuong_tien(int ma, string loai, int gio, int tg) {
+        ma_xe = ma;
+        loai_xe = loai;
+        gio_vao = gio;
+        tg_do = tg;
+    }
+
+    int lay_ma_xe() const {
+        return ma_xe;
+    }
+
+    string lay_loai_xe() const {
+        return loai_xe;
+    }
+
+    int lay_gio_vao() const {
+        return gio_vao;
+    }
+
+    int lay_tg_do() const {
+        return tg_do;
+    }
+
+    double tinh_phi() const {
+        double donGia = 0;
+
+        if (loai_xe == "Car")
+            donGia = 6000;
+        else if (loai_xe == "Motorcycle")
+            donGia = 4000;
+        else if (loai_xe == "Bicycle")
+            donGia = 2000;
+
+        double tong = 0;
+        int gioDau = tg_do;
+
+        if (gioDau > 2)
+            gioDau = 2;
+
+        bool caoDiem = false;
+
+        if ((gio_vao >= 6 && gio_vao < 10) ||
+            (gio_vao >= 15 && gio_vao < 19)) {
+            caoDiem = true;
+        }
+
+        if (caoDiem)
+            tong = gioDau * donGia * 1.3;
+        else
+            tong = gioDau * donGia * 0.95;
+
+        if (tg_do > 2)
+            tong += (tg_do - 2) * donGia * 0.9;
+
+        return tong;
+    }
+
+    void hien_thi() const {
+        cout << left << setw(12) << ma_xe
+             << setw(15) << loai_xe
+             << setw(12) << gio_vao
+             << setw(12) << tg_do
+             << fixed << setprecision(2)
+             << tinh_phi() << " VND" << endl;
+    }
+};
